@@ -9,12 +9,13 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 export class AppComponent implements OnInit{
   genders = ['male', 'female'];
   signupForm: FormGroup;
+  forbiddenUsernames = ['Chris', 'Anna'];
 
   ngOnInit(){
     this.signupForm = new FormGroup({
       // 'username': new FormControl('Ryan')  // could be set to the value you want to show initially
       'userData': new FormGroup({
-        'username': new FormControl(null, Validators.required),
+        'username': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]), // by not calling the function you are passing a reference
         'email': new FormControl(null, [Validators.required, Validators.email])
       }),
       'gender': new FormControl('male'),
@@ -29,5 +30,12 @@ export class AppComponent implements OnInit{
   onAddHobby(){
     const control = new FormControl(null, Validators.required);
     (<FormArray>this.signupForm.get('hobbies')).push(control); // Must cast to FormArray in order to push items to the control
+  }
+
+  forbiddenNames(control: FormControl): {[s: string]: boolean} { // accepts a Control and returns the key value pair and boolean value of the pair
+    if (this.forbiddenUsernames.indexOf(control.value) !== -1){
+      return {'nameIsForbidden': true};
+    }
+    return null; // if validation is successful you have to return nothing or null 
   }
 }
