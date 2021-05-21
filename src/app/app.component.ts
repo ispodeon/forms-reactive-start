@@ -29,10 +29,24 @@ export class AppComponent implements OnInit{
     this.signupForm.statusChanges.subscribe( // status changes and value changes are nice hooks for you to subscribe to at important intervals of form
       (status) => console.log(status)
     );
+    this.signupForm.setValue({
+      'userData': {
+        'username': 'Max',
+        'email': 'max@test.com'
+      },
+      'gender': 'male',
+      'hobbies': []
+    });
+    this.signupForm.patchValue({
+      'userData': {
+        'username': 'Anna'
+      }
+    });
   }
 
   onSubmit(){
     console.log(this.signupForm);
+    this.signupForm.reset();
   }
 
   onAddHobby(){
