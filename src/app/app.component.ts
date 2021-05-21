@@ -22,6 +22,13 @@ export class AppComponent implements OnInit{
       'gender': new FormControl('male'),
       'hobbies': new FormArray([]) // use this when you want to dynamically add controls to your form
     });
+
+    // this.signupForm.valueChanges.subscribe(
+    //   (value) => console.log(value)
+    // );
+    this.signupForm.statusChanges.subscribe( // status changes and value changes are nice hooks for you to subscribe to at important intervals of form
+      (status) => console.log(status)
+    );
   }
 
   onSubmit(){
